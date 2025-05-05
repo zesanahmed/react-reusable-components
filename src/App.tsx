@@ -1,9 +1,7 @@
+import MainLayout from "./components/layouts/MainLayout";
+
 function App() {
-  return (
-    <>
-      <p>React Reusable Components</p>
-    </>
-  );
+  return <MainLayout />;
 }
 
 export default App;
