@@ -1,11 +1,20 @@
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import cn from "../../utils/cn";
 import Button from "../ui/Button";
 
-const NormalForm = () => {
-  const { register, handleSubmit } = useForm();
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SignUpSchema } from "./validation";
 
-  const onSubmit = (data) => {
+const NormalForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(SignUpSchema),
+  });
+
+  const onSubmit = (data: FieldValues) => {
     console.log(data);
   };
 
@@ -31,6 +40,9 @@ const NormalForm = () => {
             Name
           </label>
           <input className="" type="text" id="name" {...register("name")} />
+          {errors.name && (
+            <span className="text-red-500 text-sm">{errors.name.message}</span>
+          )}
         </div>
         <div className="w-full max-w-md">
           <label htmlFor="email" className="block">
@@ -39,9 +51,12 @@ const NormalForm = () => {
           <input
             className="w-full"
             type="text"
-            id="name"
+            id="email"
             {...register("email")}
           />
+          {errors.email && (
+            <span className="text-red-500 text-sm">{errors.email.message}</span>
+          )}
         </div>
         <div className="w-full max-w-md">
           <label htmlFor="password" className="block">
@@ -53,32 +68,11 @@ const NormalForm = () => {
             id="password"
             {...register("password")}
           />
-        </div>
-        <div className="w-full max-w-md">
-          <label htmlFor="password" className="block">
-            Select
-          </label>
-          <select className="rounded-md" {...register("select")}>
-            <option>one</option>
-            <option>two</option>
-            <option>three</option>
-            <option>four</option>
-          </select>
-        </div>
-        <div className="w-full max-w-md">
-          <label htmlFor="password" className="block">
-            Blog
-          </label>
-          <textarea className="appearance-none rounded-md"></textarea>
-        </div>
-        <div className="w-full max-w-md">
-          <label htmlFor="password" className="block">
-            Blog
-          </label>
-          <input
-            className="w-4 h-4 border-2 checked:bg-purple-500"
-            type="checkbox"
-          />
+          {errors.password && (
+            <span className="text-red-500 text-sm">
+              {errors.password.message}
+            </span>
+          )}
         </div>
       </div>
       <div
